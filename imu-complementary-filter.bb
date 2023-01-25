@@ -3,16 +3,22 @@
 #
 inherit ros_distro_foxy
 
-SUMMARY = "XSENSE library"
+SUMMARY = "imu-tools library"
 SECTION = "devel"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/BSD;md5=3775480a712fc46a69647678acb234cb"
 
-ROS_CN = "xsense"
-ROS_BPN = "xsense"
+ROS_CN = "imu-tools"
+ROS_BPN = "imu-complementary-filter"
 
 ROS_BUILD_DEPENDS = " \
     rclcpp \
+    rclcpp-action \
+    rclcpp-lifecycle \
+    visualization-msgs \
+    nav-msgs \
+    builtin-interfaces \
+    tf2-geometry-msgs \
     tf2 \
     tf2-ros \
     std-msgs \
@@ -43,28 +49,22 @@ RDEPENDS:${PN} += "${ROS_EXEC_DEPENDS}"
 
 
 FILES:${PN}:prepend = " \
-    ${datadir}/bluespace_ai_xsens_mti_driver \
+    ${datadir}/imu_complementary_filter \
 "
 
 # ERROR: husky-base-1.0-r0 do_package_qa: QA Issue: -dev package husky-base-dev contains non-symlink .so '/usr/lib/libhusky_hardware.so' [dev-elf]
 FILES_SOLIBSDEV = ""
 FILES:${PN} += " \
-    ${libdir}/bluespace_ai_xsens_mti_driver \
+    ${libdir}/imu_complementary_filter \
 "
 
-ROS_BRANCH ?= "branch=foxy-husky"
-SRC_URI = "git://github.com/PPI-PUT/bluespace_ai_xsens_ros_mti_driver;${ROS_BRANCH};protocol=https"
-SRCREV = "bafb81836e4de3eada5ed128515d97ab537b3ada"
+ROS_BRANCH ?= "branch=foxy"
+SRC_URI = "git://github.com/CCNYRoboticsLab/imu_tools;${ROS_BRANCH};protocol=https"
+SRC_URI += " file://0001-Add-shared-libs.patch"
+SRCREV = "d28555e487e4c1278c9a2e94143dc79dcc8941bf"
 
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/git/imu_complementary_filter"
 
-do_compile:prepend() {
-    oe_runmake -C ${S}/lib/xspublic
-}
-
-do_install:append() {
-    install -Dm 0644 ${WORKDIR}/git/udev/49-xsens.rules ${D}${sysconfdir}/udev/rules.d/49-xsens.rules
-}
 
 ROS_BUILD_TYPE = "ament_cmake"
 

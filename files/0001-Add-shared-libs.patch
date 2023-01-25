@@ -1,0 +1,24 @@
+From f6c3b88d56c3119b6bfca8db4ffd4064cb9f41f6 Mon Sep 17 00:00:00 2001
+From: Bartosz <bartptak@gmail.com>
+Date: Tue, 17 Jan 2023 13:20:14 +0000
+Subject: [PATCH] Add shared libs
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7567162..d714ad0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -20,7 +20,7 @@ include_directories(
+ )
+
+ ## Declare a cpp library
+-add_library(complementary_filter
++add_library(complementary_filter SHARED
+   src/complementary_filter.cpp
+   src/complementary_filter_ros.cpp
+   include/imu_complementary_filter/complementary_filter.h
+-- 
+2.25.1
